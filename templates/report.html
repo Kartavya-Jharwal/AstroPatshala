@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-scroll me-2 text-primary"></i>
+                Numerology Report for {{ report.personal_info.name }}
+            </h2>
+            <a href="/" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>
+                New Calculation
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h4 class="text-primary">{{ report.name_number.reduced }}</h4>
+                        <p class="mb-0">Name Number</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="text-success">{{ report.birth_number.number }}</h4>
+                        <p class="mb-0">Birth Number</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="text-warning">{{ report.destiny_number.reduced }}</h4>
+                        <p class="mb-0">Destiny Number</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-signature me-2"></i>
+                    Name Number Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <span class="badge bg-primary fs-4">{{ report.name_number.reduced }}</span>
+                    {% if report.name_number.compound != report.name_number.reduced %}
+                        <span class="text-muted">(from {{ report.name_number.compound }})</span>
+                    {% endif %}
+                </div>
+                
+                <h6 class="text-primary">Letter Breakdown:</h6>
+                <div class="mb-3">
+                    {% for letter, value in report.name_number.letter_breakdown %}
+                        <span class="badge bg-light text-dark me-1">{{ letter }}={{ value }}</span>
+                    {% endfor %}
+                </div>
+                
+                <h6 class="text-primary">Core Traits:</h6>
+                <p class="mb-2">{{ report.name_number.interpretation.traits }}</p>
+                
+                <h6 class="text-primary">Description:</h6>
+                <p class="mb-2">{{ report.name_number.interpretation.description }}</p>
+                
+                <h6 class="text-success">Strengths:</h6>
+                <p class="mb-2">{{ report.name_number.interpretation.strengths }}</p>
+                
+                <h6 class="text-warning">Challenges:</h6>
+                <p class="mb-0">{{ report.name_number.interpretation.challenges }}</p>
+                
+                {% if report.name_number.compound_meaning %}
+                <hr>
+                <h6 class="text-info">Compound Number Meaning:</h6>
+                <p class="mb-0">{{ report.name_number.compound_meaning }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-birthday-cake me-2"></i>
+                    Birth Number Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <span class="badge bg-success fs-4">{{ report.birth_number.number }}</span>
+                </div>
+                
+                <h6 class="text-success">Core Traits:</h6>
+                <p class="mb-2">{{ report.birth_number.interpretation.traits }}</p>
+                
+                <h6 class="text-success">Description:</h6>
+                <p class="mb-2">{{ report.birth_number.interpretation.description }}</p>
+                
+                <h6 class="text-success">Natural Gifts:</h6>
+                <p class="mb-2">{{ report.birth_number.interpretation.strengths }}</p>
+                
+                <h6 class="text-warning">Potential Challenges:</h6>
+                <p class="mb-0">{{ report.birth_number.interpretation.challenges }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-compass me-2"></i>
+                    Destiny Number Analysis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <span class="badge bg-warning text-dark fs-4">{{ report.destiny_number.reduced }}</span>
+                    {% if report.destiny_number.compound != report.destiny_number.reduced %}
+                        <span class="text-muted">(from {{ report.destiny_number.compound }})</span>
+                    {% endif %}
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-warning">Life Path Theme:</h6>
+                        <p class="mb-2">{{ report.destiny_number.interpretation.traits }}</p>
+                        
+                        <h6 class="text-warning">Description:</h6>
+                        <p class="mb-2">{{ report.destiny_number.interpretation.description }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-success">Destiny Strengths:</h6>
+                        <p class="mb-2">{{ report.destiny_number.interpretation.strengths }}</p>
+                        
+                        <h6 class="text-danger">Life Challenges:</h6>
+                        <p class="mb-2">{{ report.destiny_number.interpretation.challenges }}</p>
+                    </div>
+                </div>
+                
+                {% if report.destiny_number.compound_meaning %}
+                <hr>
+                <h6 class="text-info">Compound Destiny Meaning:</h6>
+                <p class="mb-0">{{ report.destiny_number.compound_meaning }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-heart me-2"></i>
+                    Internal Compatibility
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6>Name & Birth Number Compatibility:</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-{{ 'success' if report.compatibility.name_birth.compatible else 'warning' }} me-2">
+                        {{ report.compatibility.name_birth.rating }}
+                    </span>
+                    <span>{{ report.name_number.reduced }} & {{ report.birth_number.number }}</span>
+                </div>
+                <p class="mb-3">{{ report.compatibility.name_birth.description }}</p>
+                
+                <h6>Name & Destiny Number Compatibility:</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-{{ 'success' if report.compatibility.name_destiny.compatible else 'warning' }} me-2">
+                        {{ report.compatibility.name_destiny.rating }}
+                    </span>
+                    <span>{{ report.name_number.reduced }} & {{ report.destiny_number.reduced }}</span>
+                </div>
+                <p class="mb-0">{{ report.compatibility.name_destiny.description }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-star me-2"></i>
+                    Life Summary
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6 class="text-primary">Personality Core:</h6>
+                <p class="mb-2">{{ report.summary.personality_core }}</p>
+                
+                <h6 class="text-success">Natural Gifts:</h6>
+                <p class="mb-2">{{ report.summary.natural_gifts }}</p>
+                
+                <h6 class="text-warning">Life Path Theme:</h6>
+                <p class="mb-2">{{ report.summary.life_path_theme }}</p>
+                
+                <h6 class="text-danger">Key Challenges:</h6>
+                <p class="mb-0">{{ report.summary.key_challenges }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-light border">
+            <h6 class="alert-heading">
+                <i class="fas fa-calendar me-2"></i>
+                Report Details
+            </h6>
+            <p class="mb-0">
+                <strong>Generated for:</strong> {{ report.personal_info.name }} <br>
+                <strong>Birth Date:</strong> {{ report.personal_info.birth_date }} <br>
+                <strong>Report Date:</strong> {{ report.personal_info.calculation_date }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

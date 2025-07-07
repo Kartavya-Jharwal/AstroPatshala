@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center mb-5">
+    <h1 class="display-4 mb-3">
+        <i class="fas fa-star-and-crescent text-warning"></i>
+        Chaldean Numerology Calculator
+    </h1>
+    <p class="lead">Discover your life's vibrational patterns using the ancient Babylonian system</p>
+</div>
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error }}
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-calculator me-2"></i>
+                    Personal Numerology Report
+                </h3>
+            </div>
+            <div class="card-body">
+                <form action="/calculate-form" method="post" id="numerologyForm">
+                    <div class="mb-4">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user me-2"></i>
+                            Full Name
+                        </label>
+                        <input type="text" class="form-control form-control-lg" id="name" name="name" 
+                               placeholder="Enter your full name" required>
+                        <div class="form-text">Enter the name you are most commonly known by</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="birth_date" class="form-label">
+                            <i class="fas fa-calendar me-2"></i>
+                            Birth Date
+                        </label>
+                        <input type="date" class="form-control form-control-lg" id="birth_date" name="birth_date" required>
+                        <div class="form-text">Your complete birth date for destiny calculation</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic me-2"></i>
+                            Generate My Numerology Report
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-signature fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Name Number</h5>
+                <p class="card-text">Reveals your personality, talents, and outward expression in the world.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-birthday-cake fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Birth Number</h5>
+                <p class="card-text">Shows your natural gifts, instincts, and core personality traits.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <i class="fas fa-compass fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Destiny Number</h5>
+                <p class="card-text">Reveals your life path, purpose, and ultimate destiny in this lifetime.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info mt-5">
+    <h5 class="alert-heading">
+        <i class="fas fa-info-circle me-2"></i>
+        About Chaldean Numerology
+    </h5>
+    <p class="mb-0">
+        Chaldean numerology is the oldest known numerological system, originating over 4,000 years ago in ancient Babylon. 
+        Unlike other systems, it assigns numbers based on vibrational frequencies and considers the number 9 sacred, 
+        excluding it from the letter-to-number chart except in final totals.
+    </p>
+</div>
+{% endblock %}
