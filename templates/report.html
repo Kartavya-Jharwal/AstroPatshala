@@ -3,14 +3,14 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+                   <h5 class="mb-0">
+                    Birth Date Analysis
+                </h5> <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>
-                <i class="fas fa-scroll me-2 text-primary"></i>
                 Numerology Report for {{ report.personal_info.name }}
             </h2>
             <a href="/" class="btn btn-outline-primary">
-                <i class="fas fa-arrow-left me-2"></i>
-                New Calculation
+                ← New Calculation
             </a>
         </div>
     </div>
@@ -20,20 +20,32 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row text-center">
-                    <div class="col-md-4">
-                        <h4 class="text-primary">{{ report.name_number.reduced }}</h4>
-                        <p class="mb-0">Name Number</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4 class="text-success">{{ report.birth_number.number }}</h4>
-                        <p class="mb-0">Birth Number</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4 class="text-warning">{{ report.destiny_number.reduced }}</h4>
-                        <p class="mb-0">Destiny Number</p>
-                    </div>
-                </div>
+        <div class="row text-center">
+            <div class="col-md-2">
+                <h4 class="text-primary">{{ report.core_numbers.name_number.reduced }}</h4>
+                <p class="mb-0">Name Number</p>
+            </div>
+            <div class="col-md-2">
+                <h4 class="text-info">{{ report.core_numbers.vowel_number.reduced }}</h4>
+                <p class="mb-0">Soul Number</p>
+            </div>
+            <div class="col-md-2">
+                <h4 class="text-secondary">{{ report.core_numbers.consonant_number.reduced }}</h4>
+                <p class="mb-0">Personality</p>
+            </div>
+            <div class="col-md-2">
+                <h4 class="text-success">{{ report.core_numbers.birth_number.number }}</h4>
+                <p class="mb-0">Birth Number</p>
+            </div>
+            <div class="col-md-2">
+                <h4 class="text-warning">{{ report.core_numbers.destiny_number.reduced }}</h4>
+                <p class="mb-0">Destiny Number</p>
+            </div>
+            <div class="col-md-2">
+                <h4 class="text-danger">{{ report.temporal_influences.personal_year.number }}</h4>
+                <p class="mb-0">Personal Year</p>
+            </div>
+        </div>
             </div>
         </div>
     </div>
@@ -44,41 +56,40 @@
         <div class="card h-100">
             <div class="card-header bg-primary text-white">
                 <h5 class="mb-0">
-                    <i class="fas fa-signature me-2"></i>
                     Name Number Analysis
                 </h5>
             </div>
             <div class="card-body">
                 <div class="text-center mb-3">
-                    <span class="badge bg-primary fs-4">{{ report.name_number.reduced }}</span>
-                    {% if report.name_number.compound != report.name_number.reduced %}
-                        <span class="text-muted">(from {{ report.name_number.compound }})</span>
+                    <span class="badge bg-primary fs-4">{{ report.core_numbers.name_number.reduced }}</span>
+                    {% if report.core_numbers.name_number.compound != report.core_numbers.name_number.reduced %}
+                        <span class="text-muted">(from {{ report.core_numbers.name_number.compound }})</span>
                     {% endif %}
                 </div>
                 
                 <h6 class="text-primary">Letter Breakdown:</h6>
                 <div class="mb-3">
-                    {% for letter, value in report.name_number.letter_breakdown %}
+                    {% for letter, value in report.core_numbers.name_number.letter_breakdown %}
                         <span class="badge bg-light text-dark me-1">{{ letter }}={{ value }}</span>
                     {% endfor %}
                 </div>
                 
                 <h6 class="text-primary">Core Traits:</h6>
-                <p class="mb-2">{{ report.name_number.interpretation.traits }}</p>
+                <p class="mb-2">{{ report.core_numbers.name_number.interpretation.traits }}</p>
                 
                 <h6 class="text-primary">Description:</h6>
-                <p class="mb-2">{{ report.name_number.interpretation.description }}</p>
+                <p class="mb-2">{{ report.core_numbers.name_number.interpretation.description }}</p>
                 
                 <h6 class="text-success">Strengths:</h6>
-                <p class="mb-2">{{ report.name_number.interpretation.strengths }}</p>
+                <p class="mb-2">{{ report.core_numbers.name_number.interpretation.strengths }}</p>
                 
                 <h6 class="text-warning">Challenges:</h6>
-                <p class="mb-0">{{ report.name_number.interpretation.challenges }}</p>
+                <p class="mb-0">{{ report.core_numbers.name_number.interpretation.challenges }}</p>
                 
-                {% if report.name_number.compound_meaning %}
+                {% if report.core_numbers.name_number.compound_meaning %}
                 <hr>
                 <h6 class="text-info">Compound Number Meaning:</h6>
-                <p class="mb-0">{{ report.name_number.compound_meaning }}</p>
+                <p class="mb-0">{{ report.core_numbers.name_number.compound_meaning }}</p>
                 {% endif %}
             </div>
         </div>
@@ -88,26 +99,27 @@
         <div class="card h-100">
             <div class="card-header bg-success text-white">
                 <h5 class="mb-0">
-                    <i class="fas fa-birthday-cake me-2"></i>
                     Birth Number Analysis
                 </h5>
             </div>
             <div class="card-body">
                 <div class="text-center mb-3">
-                    <span class="badge bg-success fs-4">{{ report.birth_number.number }}</span>
+                    <span class="badge bg-success fs-4">{{ report.core_numbers.birth_number.number }}</span>
                 </div>
                 
+                <p class="text-muted mb-3">{{ report.core_numbers.birth_number.description }}</p>
+                
                 <h6 class="text-success">Core Traits:</h6>
-                <p class="mb-2">{{ report.birth_number.interpretation.traits }}</p>
+                <p class="mb-2">{{ report.core_numbers.birth_number.interpretation.traits }}</p>
                 
                 <h6 class="text-success">Description:</h6>
-                <p class="mb-2">{{ report.birth_number.interpretation.description }}</p>
+                <p class="mb-2">{{ report.core_numbers.birth_number.interpretation.description }}</p>
                 
                 <h6 class="text-success">Natural Gifts:</h6>
-                <p class="mb-2">{{ report.birth_number.interpretation.strengths }}</p>
+                <p class="mb-2">{{ report.core_numbers.birth_number.interpretation.strengths }}</p>
                 
                 <h6 class="text-warning">Potential Challenges:</h6>
-                <p class="mb-0">{{ report.birth_number.interpretation.challenges }}</p>
+                <p class="mb-0">{{ report.core_numbers.birth_number.interpretation.challenges }}</p>
             </div>
         </div>
     </div>
@@ -116,41 +128,42 @@
 <div class="row">
     <div class="col-12 mb-4">
         <div class="card">
-            <div class="card-header bg-warning text-dark">
+            <div class="card-header bg-info text-white">
                 <h5 class="mb-0">
-                    <i class="fas fa-compass me-2"></i>
                     Destiny Number Analysis
                 </h5>
             </div>
             <div class="card-body">
                 <div class="text-center mb-3">
-                    <span class="badge bg-warning text-dark fs-4">{{ report.destiny_number.reduced }}</span>
-                    {% if report.destiny_number.compound != report.destiny_number.reduced %}
-                        <span class="text-muted">(from {{ report.destiny_number.compound }})</span>
+                    <span class="badge bg-warning text-white fs-4">{{ report.core_numbers.destiny_number.reduced }}</span>
+                    {% if report.core_numbers.destiny_number.compound != report.core_numbers.destiny_number.reduced %}
+                        <span class="text-muted">(from {{ report.core_numbers.destiny_number.compound }})</span>
                     {% endif %}
                 </div>
+                
+                <p class="text-muted mb-3">{{ report.core_numbers.destiny_number.description }}</p>
                 
                 <div class="row">
                     <div class="col-md-6">
                         <h6 class="text-warning">Life Path Theme:</h6>
-                        <p class="mb-2">{{ report.destiny_number.interpretation.traits }}</p>
+                        <p class="mb-2">{{ report.core_numbers.destiny_number.interpretation.traits }}</p>
                         
                         <h6 class="text-warning">Description:</h6>
-                        <p class="mb-2">{{ report.destiny_number.interpretation.description }}</p>
+                        <p class="mb-2">{{ report.core_numbers.destiny_number.interpretation.description }}</p>
                     </div>
                     <div class="col-md-6">
                         <h6 class="text-success">Destiny Strengths:</h6>
-                        <p class="mb-2">{{ report.destiny_number.interpretation.strengths }}</p>
+                        <p class="mb-2">{{ report.core_numbers.destiny_number.interpretation.strengths }}</p>
                         
                         <h6 class="text-danger">Life Challenges:</h6>
-                        <p class="mb-2">{{ report.destiny_number.interpretation.challenges }}</p>
+                        <p class="mb-2">{{ report.core_numbers.destiny_number.interpretation.challenges }}</p>
                     </div>
                 </div>
                 
-                {% if report.destiny_number.compound_meaning %}
+                {% if report.core_numbers.destiny_number.compound_meaning %}
                 <hr>
                 <h6 class="text-info">Compound Destiny Meaning:</h6>
-                <p class="mb-0">{{ report.destiny_number.compound_meaning }}</p>
+                <p class="mb-0">{{ report.core_numbers.destiny_number.compound_meaning }}</p>
                 {% endif %}
             </div>
         </div>
@@ -162,7 +175,7 @@
         <div class="card">
             <div class="card-header bg-info text-white">
                 <h5 class="mb-0">
-                    <i class="fas fa-heart me-2"></i>
+                    
                     Internal Compatibility
                 </h5>
             </div>
@@ -172,7 +185,7 @@
                     <span class="badge bg-{{ 'success' if report.compatibility.name_birth.compatible else 'warning' }} me-2">
                         {{ report.compatibility.name_birth.rating }}
                     </span>
-                    <span>{{ report.name_number.reduced }} & {{ report.birth_number.number }}</span>
+                    <span>{{ report.core_numbers.name_number.reduced }} & {{ report.core_numbers.birth_number.number }}</span>
                 </div>
                 <p class="mb-3">{{ report.compatibility.name_birth.description }}</p>
                 
@@ -181,24 +194,47 @@
                     <span class="badge bg-{{ 'success' if report.compatibility.name_destiny.compatible else 'warning' }} me-2">
                         {{ report.compatibility.name_destiny.rating }}
                     </span>
-                    <span>{{ report.name_number.reduced }} & {{ report.destiny_number.reduced }}</span>
+                    <span>{{ report.core_numbers.name_number.reduced }} & {{ report.core_numbers.destiny_number.reduced }}</span>
                 </div>
-                <p class="mb-0">{{ report.compatibility.name_destiny.description }}</p>
+                <p class="mb-3">{{ report.compatibility.name_destiny.description }}</p>
+                
+                <h6>Birth & Destiny Number Compatibility:</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-{{ 'success' if report.compatibility.birth_destiny.compatible else 'warning' }} me-2">
+                        {{ report.compatibility.birth_destiny.rating }}
+                    </span>
+                    <span>{{ report.core_numbers.birth_number.number }} & {{ report.core_numbers.destiny_number.reduced }}</span>
+                </div>
+                <p class="mb-3">{{ report.compatibility.birth_destiny.description }}</p>
+                
+                <h6>Overall Internal Harmony:</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-{{ 'success' if report.compatibility.internal_harmony.rating == 'High' else 'warning' if report.compatibility.internal_harmony.rating == 'Moderate' else 'danger' }}">
+                        {{ report.compatibility.internal_harmony.rating }}
+                    </span>
+                </div>
+                <p class="mb-0">{{ report.compatibility.internal_harmony.description }}</p>
             </div>
         </div>
     </div>
     
     <div class="col-lg-6 mb-4">
         <div class="card">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header bg-primary text-white">
                 <h5 class="mb-0">
-                    <i class="fas fa-star me-2"></i>
+                    <!-- Removed star icon -->
                     Life Summary
                 </h5>
             </div>
             <div class="card-body">
                 <h6 class="text-primary">Personality Core:</h6>
                 <p class="mb-2">{{ report.summary.personality_core }}</p>
+                
+                <h6 class="text-info">Inner Motivation:</h6>
+                <p class="mb-2">{{ report.summary.inner_motivation }}</p>
+                
+                <h6 class="text-secondary">Outer Expression:</h6>
+                <p class="mb-2">{{ report.summary.outer_expression }}</p>
                 
                 <h6 class="text-success">Natural Gifts:</h6>
                 <p class="mb-2">{{ report.summary.natural_gifts }}</p>
@@ -207,7 +243,10 @@
                 <p class="mb-2">{{ report.summary.life_path_theme }}</p>
                 
                 <h6 class="text-danger">Key Challenges:</h6>
-                <p class="mb-0">{{ report.summary.key_challenges }}</p>
+                <p class="mb-2">{{ report.summary.key_challenges }}</p>
+                
+                <h6 class="text-purple">Current Year Focus:</h6>
+                <p class="mb-0">{{ report.summary.current_year_focus }}</p>
             </div>
         </div>
     </div>
@@ -217,7 +256,7 @@
     <div class="col-12">
         <div class="alert alert-light border">
             <h6 class="alert-heading">
-                <i class="fas fa-calendar me-2"></i>
+                
                 Report Details
             </h6>
             <p class="mb-0">
@@ -227,5 +266,322 @@
             </p>
         </div>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    
+                    Soul Number (Vowels)
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <span class="badge bg-info fs-4">{{ report.core_numbers.vowel_number.reduced }}</span>
+                    {% if report.core_numbers.vowel_number.compound != report.core_numbers.vowel_number.reduced %}
+                        <span class="text-muted">(from {{ report.core_numbers.vowel_number.compound }})</span>
+                    {% endif %}
+                </div>
+                
+                <p class="text-muted mb-3">{{ report.core_numbers.vowel_number.description }}</p>
+                
+                <h6 class="text-info">Inner Motivation:</h6>
+                <p class="mb-2">{{ report.core_numbers.vowel_number.interpretation.traits }}</p>
+                
+                <h6 class="text-info">Soul's Desire:</h6>
+                <p class="mb-0">{{ report.core_numbers.vowel_number.interpretation.description }}</p>
+                
+                {% if report.core_numbers.vowel_number.compound_meaning %}
+                <hr>
+                <h6 class="text-secondary">Compound Meaning:</h6>
+                <p class="mb-0">{{ report.core_numbers.vowel_number.compound_meaning }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">
+                    
+                    Personality Number (Consonants)
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <span class="badge bg-secondary fs-4">{{ report.core_numbers.consonant_number.reduced }}</span>
+                    {% if report.core_numbers.consonant_number.compound != report.core_numbers.consonant_number.reduced %}
+                        <span class="text-muted">(from {{ report.core_numbers.consonant_number.compound }})</span>
+                    {% endif %}
+                </div>
+                
+                <p class="text-muted mb-3">{{ report.core_numbers.consonant_number.description }}</p>
+                
+                <h6 class="text-secondary">Outer Expression:</h6>
+                <p class="mb-2">{{ report.core_numbers.consonant_number.interpretation.traits }}</p>
+                
+                <h6 class="text-secondary">How Others See You:</h6>
+                <p class="mb-0">{{ report.core_numbers.consonant_number.interpretation.description }}</p>
+                
+                {% if report.core_numbers.consonant_number.compound_meaning %}
+                <hr>
+                <h6 class="text-info">Compound Meaning:</h6>
+                <p class="mb-0">{{ report.core_numbers.consonant_number.compound_meaning }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    
+                    Personal Year {{ report.temporal_influences.personal_year.year }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="text-center mb-3">
+                            <span class="badge bg-danger fs-4">{{ report.temporal_influences.personal_year.number }}</span>
+                        </div>
+                        <p class="text-muted mb-3">{{ report.temporal_influences.personal_year.description }}</p>
+                        <h6 class="text-danger">This Year's Theme:</h6>
+                        <p class="mb-0">{{ report.temporal_influences.personal_year.interpretation.description }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-danger">Opportunities:</h6>
+                        <p class="mb-2">{{ report.temporal_influences.personal_year.interpretation.strengths }}</p>
+                        <h6 class="text-warning">Challenges to Navigate:</h6>
+                        <p class="mb-0">{{ report.temporal_influences.personal_year.interpretation.challenges }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-purple text-white" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+                <h5 class="mb-0">
+                    
+                    Life Stage Numbers
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <span class="badge bg-primary fs-5">{{ report.temporal_influences.life_stages.first_stage.number }}</span>
+                                <h6 class="mt-2 text-primary">First Stage</h6>
+                                <p class="small text-muted">{{ report.temporal_influences.life_stages.first_stage.period }}</p>
+                                <p class="small">{{ report.temporal_influences.life_stages.first_stage.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <span class="badge bg-success fs-5">{{ report.temporal_influences.life_stages.second_stage.number }}</span>
+                                <h6 class="mt-2 text-success">Second Stage</h6>
+                                <p class="small text-muted">{{ report.temporal_influences.life_stages.second_stage.period }}</p>
+                                <p class="small">{{ report.temporal_influences.life_stages.second_stage.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="card border-warning">
+                            <div class="card-body">
+                                <span class="badge bg-warning text-white fs-5">{{ report.temporal_influences.life_stages.third_stage.number }}</span>
+                                <h6 class="mt-2 text-warning">Third Stage</h6>
+                                <p class="small text-muted">{{ report.temporal_influences.life_stages.third_stage.period }}</p>
+                                <p class="small">{{ report.temporal_influences.life_stages.third_stage.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if report.special_numbers.karmic_debt.numbers or report.special_numbers.master_numbers.numbers %}
+<div class="row">
+    {% if report.special_numbers.karmic_debt.numbers %}
+    <div class="col-lg-6 mb-4">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0">
+                    
+                    Karmic Debt Numbers
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">{{ report.special_numbers.karmic_debt.description }}</p>
+                {% for number in report.special_numbers.karmic_debt.numbers %}
+                    <div class="mb-3">
+                        <span class="badge bg-warning text-white">{{ number }}</span>
+                        <p class="small mt-1">{{ report.special_numbers.karmic_debt.meanings[loop.index0] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if report.special_numbers.master_numbers.numbers %}
+    <div class="col-lg-6 mb-4">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <!-- Removed star icon -->
+                    Master Numbers
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">{{ report.special_numbers.master_numbers.description }}</p>
+                {% for number in report.special_numbers.master_numbers.numbers %}
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{ number }}</span>
+                        <p class="small mt-1">{{ report.special_numbers.master_numbers.meanings[loop.index0] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    
+                    Lucky Numbers
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">{{ report.special_numbers.lucky_numbers.description }}</p>
+                <div class="mb-2">
+                    {% for number in report.special_numbers.lucky_numbers.numbers %}
+                        <span class="badge bg-success me-1">{{ number }}</span>
+                    {% endfor %}
+                </div>
+                <p class="small">Use these numbers for important decisions, dates, or when you need favorable energy.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    
+                    Challenging Numbers
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">{{ report.special_numbers.challenging_numbers.description }}</p>
+                <div class="mb-2">
+                    {% for number in report.special_numbers.challenging_numbers.numbers %}
+                        <span class="badge bg-danger me-1">{{ number }}</span>
+                    {% endfor %}
+                </div>
+                <p class="small">Be extra mindful when these numbers appear prominently in important situations.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+                <h5 class="mb-0">
+                    
+                    Comprehensive Life Guidance
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <h6 class="text-success">
+                            
+                            Career Guidance
+                        </h6>
+                        {% for guidance in report.life_guidance.career_guidance %}
+                        <div class="alert alert-success-subtle p-2 mb-2">
+                            <small>{{ guidance }}</small>
+                        </div>
+                        {% endfor %}
+                        
+                        <h6 class="text-info mt-3">
+                            
+                            Relationship Guidance
+                        </h6>
+                        {% for guidance in report.life_guidance.relationship_guidance %}
+                        <div class="alert alert-info-subtle p-2 mb-2">
+                            <small>{{ guidance }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="col-lg-6 mb-4">
+                        <h6 class="text-warning">
+                            
+                            Health & Wellness
+                        </h6>
+                        {% for guidance in report.life_guidance.health_guidance %}
+                        <div class="alert alert-warning-subtle p-2 mb-2">
+                            <small>{{ guidance }}</small>
+                        </div>
+                        {% endfor %}
+                        
+                        <h6 class="text-primary mt-3">
+                            <!-- Removed star icon -->
+                            Core Strengths
+                        </h6>
+                        {% for strength in report.life_guidance.strengths %}
+                        <div class="alert alert-primary-subtle p-2 mb-2">
+                            <small>{{ strength }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-danger">
+                            
+                            Areas for Growth & Development
+                        </h6>
+                        {% for challenge in report.life_guidance.challenges %}
+                        <div class="alert alert-danger-subtle p-2 mb-2">
+                            <small>{{ challenge }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5 mb-3">
+    <img src="/static/astro_patshala_logo.png" alt="Astro Patshala Logo" style="height:48px;width:auto;opacity:0.7;">
+    <div class="small text-muted mt-1">Powered by Astro Patshala</div>
 </div>
 {% endblock %}

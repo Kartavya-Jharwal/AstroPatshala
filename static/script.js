@@ -200,6 +200,132 @@ function hideInputError(input) {
     }
 }
 
+// Smart user search functionality
+async function searchUsers() {
+    const searchInput = document.getElementById('quickSearch');
+    const searchResults = document.getElementById('searchResults');
+    const query = searchInput.value.trim();
+    
+    if (!query) {
+        searchResults.innerHTML = '';
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/quick-lookup?name=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        if (data.matches && data.matches.length > 0) {
+            let html = '<div class="list-group list-group-flush">';
+            
+            data.matches.forEach(user => {
+                const lastAccess = new Date(user.last_access).toLocaleDateString();
+                const numbers = user.quick_numbers;
+                const numbersText = Object.keys(numbers).length > 0 
+                    ? `(${Object.entries(numbers).map(([k,v]) => `${k}: ${v}`).join(', ')})` 
+                    : '';
+                
+                html += `
+                    <a href="#" class="list-group-item list-group-item-action" 
+                       onclick="loadUser('${user.name}', '${user.birth_date.split('T')[0]}')">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">${user.name}</h6>
+                            <small class="text-muted">${lastAccess}</small>
+                        </div>
+                        <p class="mb-1">Born: ${user.birth_date.split('T')[0]} ${numbersText}</p>
+                        <small class="text-muted">Accessed ${user.access_count} times</small>
+                    </a>
+                `;
+            });
+            
+            html += '</div>';
+            searchResults.innerHTML = html;
+        } else {
+            searchResults.innerHTML = '<div class="text-muted"><i class="fas fa-search me-2"></i>No matches found</div>';
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        searchResults.innerHTML = '<div class="text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Search failed</div>';
+    }
+}
+
+// Load user calculation
+async function loadUser(name, birthDate) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/load-user';
+    form.style.display = 'none';
+    
+    const nameInput = document.createElement('input');
+    nameInput.name = 'user_name';
+    nameInput.value = name;
+    
+    const dateInput = document.createElement('input');
+    dateInput.name = 'user_birth_date';
+    dateInput.value = birthDate;
+    
+    form.appendChild(nameInput);
+    form.appendChild(dateInput);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Enhanced search with Enter key support
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('quickSearch');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                searchUsers();
+            } else if (this.value.length >= 2) {
+                // Auto-search after 2+ characters
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(searchUsers, 300);
+            } else if (this.value.length === 0) {
+                document.getElementById('searchResults').innerHTML = '';
+            }
+        });
+    }
+    
+    // Smart form enhancements
+    const smartForm = document.getElementById('smartForm');
+    if (smartForm) {
+        const naturalInput = document.getElementById('natural_input');
+        
+        // Add real-time feedback
+        naturalInput.addEventListener('input', function() {
+            // Simple validation feedback
+            const text = this.value.toLowerCase();
+            const hasName = /name|call|i am/.test(text);
+            const hasDate = /born|birth|birthday|\d{4}|\d{1,2}\/\d{1,2}/.test(text);
+            
+            let feedback = '';
+            if (text.length > 10) {
+                if (hasName && hasDate) {
+                    feedback = '<i class="fas fa-check text-success me-2"></i>Looking good! Name and date detected.';
+                } else if (hasName) {
+                    feedback = '<i class="fas fa-info text-warning me-2"></i>Name detected. Please add your birth date.';
+                } else if (hasDate) {
+                    feedback = '<i class="fas fa-info text-warning me-2"></i>Date detected. Please add your name.';
+                } else {
+                    feedback = '<i class="fas fa-lightbulb text-info me-2"></i>Try: "My name is [Your Name] born [Date]"';
+                }
+            }
+            
+            const feedbackDiv = document.getElementById('smartFeedback') || 
+                               (() => {
+                                   const div = document.createElement('div');
+                                   div.id = 'smartFeedback';
+                                   div.className = 'form-text mt-2';
+                                   naturalInput.parentNode.appendChild(div);
+                                   return div;
+                               })();
+            
+            feedbackDiv.innerHTML = feedback;
+        });
+    }
+});
+
 // Utility functions
 function debounce(func, wait) {
     let timeout;

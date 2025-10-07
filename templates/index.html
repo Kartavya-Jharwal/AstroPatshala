@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="hero-section text-center mb-5">
-    <h1 class="display-4 mb-3">
-        <i class="fas fa-star-and-crescent text-warning"></i>
+    <h1 class="display-4 mb-3 d-flex flex-column align-items-center">
+        <img src="/static/astro_patshala_logo.png" alt="Astro Patshala Logo" style="height:70px;width:auto;background:#fff;border-radius:8px;box-shadow:0 1px 4px #0001;">
         Chaldean Numerology Calculator
     </h1>
     <p class="lead">Discover your life's vibrational patterns using the ancient Babylonian system</p>
@@ -11,7 +11,6 @@
 
 {% if error %}
 <div class="alert alert-danger" role="alert">
-    <i class="fas fa-exclamation-triangle me-2"></i>
     {{ error }}
 </div>
 {% endif %}
@@ -21,15 +20,54 @@
         <div class="card shadow-lg">
             <div class="card-header bg-primary text-white">
                 <h3 class="card-title mb-0">
-                    <i class="fas fa-calculator me-2"></i>
                     Personal Numerology Report
                 </h3>
             </div>
             <div class="card-body">
+                <!-- Smart Natural Language Input -->
+                <div class="mb-4">
+                    <h5 class="text-primary">
+                        Smart Input (Recommended)
+                    </h5>
+                    <p class="text-muted">Just type naturally! Our AI will understand and correct typos.</p>
+                    
+                    <form action="/smart-calculate" method="post" id="smartForm">
+                        <div class="mb-3">
+                            <label for="natural_input" class="form-label">Tell us about yourself:</label>
+                            <textarea class="form-control" id="natural_input" name="natural_input" rows="3" 
+                                      placeholder="Examples:&#10;• My name is John Doe and I was born on January 15, 1990&#10;• Call me Sarah, birthday is 1985-03-20&#10;• I am Mike Smith born 12/25/1987"
+                                      required></textarea>
+                            <div class="form-text">
+                                Just type naturally - we'll handle typos and extract your name and birth date!
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg w-100 mb-3">
+                            Smart Calculate
+                        </button>
+                    </form>
+                    
+                    <!-- Quick User Lookup -->
+                    <div class="mt-3">
+                        <h6 class="text-secondary">Quick Lookup Previous Users:</h6>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="quickSearch" placeholder="Search by name...">
+                            <button class="btn btn-outline-secondary" type="button" onclick="searchUsers()">
+                                Search
+                            </button>
+                        </div>
+                        <div id="searchResults" class="mt-2"></div>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                
+                <div class="text-center mb-3">
+                    <span class="text-muted">OR use traditional form:</span>
+                </div>
+                
                 <form action="/calculate-form" method="post" id="numerologyForm">
                     <div class="mb-4">
                         <label for="name" class="form-label">
-                            <i class="fas fa-user me-2"></i>
                             Full Name
                         </label>
                         <input type="text" class="form-control form-control-lg" id="name" name="name" 
@@ -39,7 +77,6 @@
                     
                     <div class="mb-4">
                         <label for="birth_date" class="form-label">
-                            <i class="fas fa-calendar me-2"></i>
                             Birth Date
                         </label>
                         <input type="date" class="form-control form-control-lg" id="birth_date" name="birth_date" required>
@@ -48,7 +85,6 @@
                     
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-magic me-2"></i>
                             Generate My Numerology Report
                         </button>
                     </div>
@@ -62,7 +98,6 @@
     <div class="col-md-4">
         <div class="card h-100 text-center">
             <div class="card-body">
-                <i class="fas fa-signature fa-3x text-primary mb-3"></i>
                 <h5 class="card-title">Name Number</h5>
                 <p class="card-text">Reveals your personality, talents, and outward expression in the world.</p>
             </div>
@@ -71,7 +106,6 @@
     <div class="col-md-4">
         <div class="card h-100 text-center">
             <div class="card-body">
-                <i class="fas fa-birthday-cake fa-3x text-success mb-3"></i>
                 <h5 class="card-title">Birth Number</h5>
                 <p class="card-text">Shows your natural gifts, instincts, and core personality traits.</p>
             </div>
@@ -80,7 +114,6 @@
     <div class="col-md-4">
         <div class="card h-100 text-center">
             <div class="card-body">
-                <i class="fas fa-compass fa-3x text-warning mb-3"></i>
                 <h5 class="card-title">Destiny Number</h5>
                 <p class="card-text">Reveals your life path, purpose, and ultimate destiny in this lifetime.</p>
             </div>
@@ -90,7 +123,6 @@
 
 <div class="alert alert-info mt-5">
     <h5 class="alert-heading">
-        <i class="fas fa-info-circle me-2"></i>
         About Chaldean Numerology
     </h5>
     <p class="mb-0">

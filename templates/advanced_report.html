@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Numerology Report - North Indian Chaldean</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .advanced-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .lo-shu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        
+        .grid-cell {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .grid-cell:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        .missing-number {
+            background: rgba(255,0,0,0.3);
+            border-color: #ff4444;
+        }
+        
+        .repeated-number {
+            background: rgba(0,255,0,0.3);
+            border-color: #44ff44;
+        }
+        
+        .karmic-analysis {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .cycles-analysis {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .score-meter {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ffaa00, #44ff44);
+            transition: width 0.8s ease;
+            border-radius: 10px;
+        }
+        
+        .raj-yog-badge {
+            display: inline-block;
+            background: gold;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 2px;
+        }
+        
+        .hidden-passion {
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .karmic-lesson {
+            color: #f5576c;
+            font-weight: bold;
+        }
+        
+        .back-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔮 Advanced Numerology Report</h1>
+            <h2>North Indian Chaldean System</h2>
+            <p class="subtitle">Complete analysis with Lo-Shu Grid, Karmic Lessons, and Personal Cycles</p>
+        </header>
+
+        {% if report %}
+        <div class="report-content">
+            <!-- Basic Information -->
+            <div class="basic-info">
+                <h2>📋 Personal Information</h2>
+                <p><strong>Name:</strong> {{ report.personal_info.name }}</p>
+                <p><strong>Birth Date:</strong> {{ report.personal_info.birth_date }}</p>
+                <p><strong>Report Generated:</strong> {{ report.personal_info.calculation_date }}</p>
+            </div>
+
+            <!-- Core Numbers Summary -->
+            <div class="core-summary">
+                <h2>🔢 Core Numbers</h2>
+                <div class="number-grid">
+                    <div class="number-card">
+                        <h3>Name Number</h3>
+                        <div class="number">{{ report.core_numbers.name_number.reduced }}</div>
+                        <p>{{ report.core_numbers.name_number.interpretation.traits }}</p>
+                    </div>
+                    <div class="number-card">
+                        <h3>Birth Number</h3>
+                        <div class="number">{{ report.core_numbers.birth_number.number }}</div>
+                        <p>{{ report.core_numbers.birth_number.interpretation.traits }}</p>
+                    </div>
+                    <div class="number-card">
+                        <h3>Destiny Number</h3>
+                        <div class="number">{{ report.core_numbers.destiny_number.reduced }}</div>
+                        <p>{{ report.core_numbers.destiny_number.interpretation.traits }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Features -->
+            {% if report.advanced_features %}
+            
+            <!-- Lo-Shu Grid Analysis -->
+            {% if report.advanced_features.lo_shu_grid and not report.advanced_features.lo_shu_grid.error %}
+            <div class="advanced-section">
+                <h2>🎯 Lo-Shu Grid Analysis</h2>
+                <div class="feature-card">
+                    <h3>Magic Square from Your Birth Date</h3>
+                    <div class="lo-shu-grid">
+                        {% for row in report.advanced_features.lo_shu_grid.grid %}
+                            {% for cell in row %}
+                            <div class="grid-cell {% if cell == 0 %}missing-number{% elif cell > 1 %}repeated-number{% endif %}">
+                                {% if cell == 0 %}
+                                    {{ loop.parent.index0 * 3 + loop.index0 + 1 }}
+                                {% else %}
+                                    {{ loop.parent.index0 * 3 + loop.index0 + 1 }}({{ cell }})
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="score-meter">
+                        <div class="score-fill" style="width: {{ report.advanced_features.lo_shu_grid.strength_score }}%"></div>
+                    </div>
+                    <p><strong>Grid Strength:</strong> {{ "%.1f"|format(report.advanced_features.lo_shu_grid.strength_score) }}/100</p>
+                    
+                    {% if report.advanced_features.lo_shu_grid.missing_numbers %}
+                    <p><strong>Missing Numbers:</strong> 
+                        {% for num in report.advanced_features.lo_shu_grid.missing_numbers %}
+                            <span class="karmic-lesson">{{ num }}</span>{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.lo_shu_grid.raj_yog %}
+                    <p><strong>Raj Yog Patterns:</strong></p>
+                    {% for yog in report.advanced_features.lo_shu_grid.raj_yog %}
+                        <span class="raj-yog-badge">{{ yog.name }}</span>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    <h4>Planes Analysis:</h4>
+                    {% for plane_name, plane_data in report.advanced_features.lo_shu_grid.planes.items() %}
+                    <div class="feature-card">
+                        <strong>{{ plane_name.title() }} Plane:</strong> {{ plane_data.strength }}
+                        <br><small>{{ plane_data.advice }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Karmic Analysis -->
+            {% if report.advanced_features.karmic_analysis and not report.advanced_features.karmic_analysis.error %}
+            <div class="advanced-section karmic-analysis">
+                <h2>⚖️ Karmic Analysis</h2>
+                <div class="feature-card">
+                    <h3>Hidden Passion & Karmic Lessons</h3>
+                    
+                    {% if report.advanced_features.karmic_analysis.hidden_passion %}
+                    <p><strong>Hidden Passion Numbers:</strong> 
+                        {% for num in report.advanced_features.karmic_analysis.hidden_passion %}
+                            <span class="hidden-passion">{{ num }}</span>{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.karmic_analysis.karmic_lessons %}
+                    <p><strong>Karmic Lessons:</strong> 
+                        {% for num in report.advanced_features.karmic_analysis.karmic_lessons %}
+                            <span class="karmic-lesson">{{ num }}</span>{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.karmic_analysis.most_karmic_lesson %}
+                    <p><strong>Most Important Karmic Lesson:</strong> 
+                        <span class="karmic-lesson">{{ report.advanced_features.karmic_analysis.most_karmic_lesson }}</span>
+                    </p>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.karmic_analysis.analysis.overall_profile %}
+                    <h4>Personality Profile:</h4>
+                    <p><strong>Type:</strong> {{ report.advanced_features.karmic_analysis.analysis.overall_profile.personality_type }}</p>
+                    <div class="score-meter">
+                        <div class="score-fill" style="width: {{ report.advanced_features.karmic_analysis.analysis.overall_profile.balance_score }}%"></div>
+                    </div>
+                    <p><strong>Balance Score:</strong> {{ "%.1f"|format(report.advanced_features.karmic_analysis.analysis.overall_profile.balance_score) }}/100</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Personal Cycles -->
+            {% if report.advanced_features.personal_cycles and not report.advanced_features.personal_cycles.error %}
+            <div class="advanced-section cycles-analysis">
+                <h2>🌙 Personal Cycles</h2>
+                <div class="feature-card">
+                    <h3>Current Life Cycles</h3>
+                    <div class="cycle-numbers">
+                        <p><strong>Personal Year:</strong> {{ report.advanced_features.personal_cycles.personal_year }}</p>
+                        <p><strong>Personal Month:</strong> {{ report.advanced_features.personal_cycles.personal_month }}</p>
+                        <p><strong>Personal Day:</strong> {{ report.advanced_features.personal_cycles.personal_day }}</p>
+                    </div>
+                    
+                    {% if report.advanced_features.personal_cycles.cycle_analysis %}
+                    <h4>Current Phase:</h4>
+                    <p>{{ report.advanced_features.personal_cycles.cycle_analysis.life_phase }}</p>
+                    <p><strong>Energy Level:</strong> {{ report.advanced_features.personal_cycles.cycle_analysis.energy_level }}</p>
+                    <p><strong>Cycle Harmony:</strong> {{ report.advanced_features.personal_cycles.cycle_analysis.cycle_harmony }}</p>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.personal_cycles.lucky_dates %}
+                    <h4>Favorable Dates This Month:</h4>
+                    <p>{{ report.advanced_features.personal_cycles.lucky_dates[:5]|join(', ') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% endif %}
+
+            <!-- Recommendations Section -->
+            <div class="recommendations">
+                <h2>💡 Personalized Recommendations</h2>
+                
+                {% if report.advanced_features %}
+                    {% if report.advanced_features.lo_shu_grid.recommendations %}
+                    <h3>Lo-Shu Grid Guidance:</h3>
+                    <ul>
+                        {% for rec in report.advanced_features.lo_shu_grid.recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.karmic_analysis.recommendations %}
+                    <h3>Karmic Development:</h3>
+                    <ul>
+                        {% for rec in report.advanced_features.karmic_analysis.recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    
+                    {% if report.advanced_features.personal_cycles.recommendations %}
+                    <h3>Current Cycle Guidance:</h3>
+                    <ul>
+                        {% for rec in report.advanced_features.personal_cycles.recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- Life Guidance -->
+            <div class="life-guidance">
+                <h2>🌟 Life Guidance Summary</h2>
+                
+                <div class="guidance-section">
+                    <h3>Your Key Strengths</h3>
+                    <ul>
+                        {% for strength in report.life_guidance.strengths %}
+                        <li>{{ strength }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <div class="guidance-section">
+                    <h3>Areas for Growth</h3>
+                    <ul>
+                        {% for challenge in report.life_guidance.challenges %}
+                        <li>{{ challenge }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <div class="guidance-section">
+                    <h3>Career Alignment</h3>
+                    <ul>
+                        {% for career in report.life_guidance.career_guidance %}
+                        <li>{{ career }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+        {% endif %}
+
+        <div class="actions">
+            <a href="/" class="back-button">🏠 Calculate Another</a>
+            <button onclick="window.print()" class="back-button">🖨️ Print Report</button>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate score meters
+            const scoreMeters = document.querySelectorAll('.score-fill');
+            scoreMeters.forEach(meter => {
+                const width = meter.style.width;
+                meter.style.width = '0%';
+                setTimeout(() => {
+                    meter.style.width = width;
+                }, 500);
+            });
+            
+            // Add hover effects to grid cells
+            const gridCells = document.querySelectorAll('.grid-cell');
+            gridCells.forEach(cell => {
+                cell.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(1.1) rotate(5deg)';
+                });
+                cell.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

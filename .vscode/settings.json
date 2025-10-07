@@ -1,0 +1,5 @@
+{
+    "doppler.autocomplete.enable": false,
+    "doppler.hover.enable": false,
+    "liveServer.settings.port": 5501
+}
