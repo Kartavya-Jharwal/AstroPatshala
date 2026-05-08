@@ -1,0 +1,22 @@
+{
+  "name": "My Simple Startup Website",
+  "short_name": "StartupPWA",
+  "description": "A simple website optimized for GitHub Pages, with PWA 2.0 capabilities, OPFS, and Local Storage.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0055ff",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
