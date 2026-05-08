@@ -1,6 +1,6 @@
 {
-  "name": "My Simple Startup Website",
-  "short_name": "StartupPWA",
+  "name": "Astropatshala",
+  "short_name": "Astropatshala",
   "description": "A simple website optimized for GitHub Pages, with PWA 2.0 capabilities, OPFS, and Local Storage.",
   "start_url": ".",
   "display": "standalone",

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourusername.github.io/Astro/sitemap.xml
+Sitemap: https://yourusername.github.io/astropatshala/sitemap.xml
