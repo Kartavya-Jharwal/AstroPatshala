@@ -7,9 +7,10 @@ import uvicorn
 from pathlib import Path
 
 from chaldean_calculator import ChaldeanNumerology
-from models import NumerologyRequest, CompatibilityRequest, QuickCalculationRequest
+from models import NumerologyRequest, QuickCalculationRequest
 from text_normalizer import TextNormalizer
 from session_manager import SessionManager
+from nlp_processor import NLPProcessor
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -22,6 +23,7 @@ app = FastAPI(
 calculator = ChaldeanNumerology()
 text_normalizer = TextNormalizer()
 session_manager = SessionManager()
+nlp_processor = NLPProcessor()
 
 # Create templates directory if it doesn't exist
 templates_dir = Path("templates")
@@ -41,11 +43,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def home(request: Request):
     """Home page with the main calculator form"""
     return templates.TemplateResponse("index.html", {"request": request})
-
-@app.get("/about", response_class=HTMLResponse)
-async def about(request: Request):
-    """About page explaining Chaldean numerology"""
-    return templates.TemplateResponse("about.html", {"request": request})
 
 @app.post("/calculate")
 async def calculate_numerology(request: NumerologyRequest):
@@ -76,55 +73,6 @@ async def calculate_numerology_form(
             "index.html", 
             {"request": request, "error": str(e)}
         )
-
-@app.post("/compatibility")
-async def calculate_compatibility(request: CompatibilityRequest):
-    """Calculate compatibility between two people"""
-    try:
-        person1_birth = datetime.strptime(request.person1_birth_date, '%Y-%m-%d')
-        person2_birth = datetime.strptime(request.person2_birth_date, '%Y-%m-%d')
-        
-        # Generate reports for both people
-        report1 = calculator.generate_full_report(request.person1_name, person1_birth)
-        report2 = calculator.generate_full_report(request.person2_name, person2_birth)
-        
-        # Calculate detailed compatibility
-        name_compatibility = calculator.calculate_compatibility(
-            report1["name_number"]["reduced"],
-            report2["name_number"]["reduced"]
-        )
-        birth_compatibility = calculator.calculate_compatibility(
-            report1["birth_number"]["number"],
-            report2["birth_number"]["number"]
-        )
-        destiny_compatibility = calculator.calculate_compatibility(
-            report1["destiny_number"]["reduced"],
-            report2["destiny_number"]["reduced"]
-        )
-        
-        compatibility_report = {
-            "person1": report1,
-            "person2": report2,
-            "compatibility": {
-                "name_numbers": name_compatibility,
-                "birth_numbers": birth_compatibility,
-                "destiny_numbers": destiny_compatibility,
-                "overall_rating": "High" if any([
-                    name_compatibility["compatible"],
-                    birth_compatibility["compatible"],
-                    destiny_compatibility["compatible"]
-                ]) else "Moderate"
-            }
-        }
-        
-        return JSONResponse(content=compatibility_report)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-@app.get("/compatibility", response_class=HTMLResponse)
-async def compatibility_page(request: Request):
-    """Compatibility calculator page"""
-    return templates.TemplateResponse("compatibility.html", {"request": request})
 
 @app.post("/quick-calculate")
 async def quick_calculate(request: QuickCalculationRequest):
